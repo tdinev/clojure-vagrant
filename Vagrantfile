@@ -1,26 +1,13 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
-
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
   config.vm.box = "debian/bookworm64"
   config.vm.provider "virtualbox" do |v|
     v.gui = false
-  end
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
+    v.name = "clojure-ide"
 
+  end
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
@@ -54,45 +41,6 @@ Vagrant.configure("2") do |config|
   # shown above.
   # config.vm.synced_folder ".", "/vagrant", disabled: true
 
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-    apt-get install -y curl git emacs rlwrap openjdk-17-jdk-headless tree httpie jq figlet lolcat
-  SHELL
-
-  config.vm.provision "shell", privileged: false, inline: <<-SHELL
-  curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
-  chmod +x linux-install.sh
-  sudo ./linux-install.sh
-  curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
-  curl -sS https://starship.rs/install.sh | sh -s -- --yes
-  echo 'eval "$(starship init bash)"' >> ~/.bashrc
-  clojure -Ttools install-latest :lib io.github.seancorfield/deps-new :as new
-  cat <<EOL >> ~/.emacs.d/init.el
-;;; Own customizations follow.
-
-;; Avoid having the warnings buffer pop up.
-(setq warning-minimum-level :error)
-
-;; Disable the menu bar as it is unusable in this case.
-(menu-bar-mode -1)
-EOL
-  SHELL
+  config.vm.provision "shell", path: "custom-root.sh"
+  config.vm.provision "shell", privileged: false, path: "custom-user.sh"
 end
