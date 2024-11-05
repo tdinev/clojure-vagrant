@@ -41,5 +41,5 @@ Vagrant.configure("2") do |config|
   # config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provision "shell", path: "custom-root.sh"
-  config.vm.provision "shell", privileged: false, path: "custom-user.sh"
+  config.vm.provision "shell", path: "custom-user.sh", privileged: false
 end
