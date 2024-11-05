@@ -100,7 +100,7 @@ or download and extract the [ZIP archive](https://github.com/tdinev/clojure-vagr
 Change into the `clojure-vagrant` directory and issue the command
 
 ```pwershell
-vagrant up/suspend/resume/halt/destroy/provision
+vagrant up
 ```
 
 to set up the development environment.
