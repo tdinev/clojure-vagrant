@@ -1,20 +1,21 @@
-# Portable Clojure development environment
+# Portable Clojure Development Environment
 
-## Description
+## 📃 Description
 
-This repository facilitates setting up a portable and reproducible development environment for Clojure based on Vagrant.
-The underlying Vagrant box is the official Debian Bookworm.
+This repository facilitates setting up a portable and reproducible development environment for [Clojure](https://clojure.org/) based on [Vagrant](https://www.vagrantup.com/).
+The underlying Vagrant box is the official [Debian](https://www.debian.org/) distribution Bookworm.
 
 This repository arose out of the need to develop in Clojure using the traditional command line tools on a Windows machine.
-A first attempt to achieve this resulted in a setup employing Docker.
+A [first attempt](https://github.com/tdinev/clojure-container-ide) to achieve this resulted in a setup employing Docker but turned out to not have a ´well functioning Emacs executable.
+This more heavy-weight way of using an entire virtual machine seems to be working well.
 
-## Usage
+## 💡 Usage
 
 The following are instructions for novices using Windows.
 
 ### Terminal Emulator
 
-A decent terminal emulator is recommended to make for a pleasant user experience.
+A decent terminal emulator is recommended for the following actions to make for a pleasant user experience.
 (I have been using [ConEmu](https://conemu.github.io/) in the past few years.)
 
 ### Windows Package Manager `scoop`
@@ -86,25 +87,43 @@ Install [Vagrant](https://www.vagrantup.com/):
 scoop install vagrant
 ```
 
-#### Check
+### Set Up the Development Environment
 
-The output of the command
+Clone this repository using Git
 
-```powershell
-scoop list
+```bash
+git clone https://github.com/tdinev/clojure-vagrant.git
 ```
 
-should contain the four items installed above.
+or download and extract the [ZIP archive](https://github.com/tdinev/clojure-vagrant/archive/refs/heads/master.zip).
 
-### Using Vagrant
+Change into the `clojure-vagrant` directory and issue the command
 
 ```pwershell
 vagrant up/suspend/resume/halt/destroy/provision
 ```
 
+to set up the development environment.
+
+After the command has finished (it may take a few minutes), type
+
+```powershell
+vagrant ssh
+```
+
+to log onto the development enviornment.
+
+Use the following commands to manage the lifecycle of your virtual machine:
+
+```bash
+vagrant suspend # Stops the virtual machine from executing and saves its state to disk.
+vagrant resume # Continues executing the virtual machine after it has been suspended.
+vagrant halt # Shuts down the virtual machine.
+vagrant destroy # Tears down the virtual machine, i.e., a new one has to be created if you want to use the development environment again.
+vagrant provision # Executes all provisioning scripts again to take any modifications into account.
+```
+
 ## TODOs
 
 1. install sdkman and jdk 21
-1. execute `ln -s /usr/local/bin/lolcal /usr/games/lolcat`
-1. embed heredocs from `Vagrantfile` into scripts
 1. copy `~/.gitconfig`
