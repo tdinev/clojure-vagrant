@@ -17,3 +17,6 @@ curl -sS https://starship.rs/install.sh | sh -s -- --yes
 
 # Configure bash to use Starship prompt.
 echo 'eval "$(starship init bash)"' >> ~/.bashrc
+
+# Create a symlink to lolcat in a locatrion on the PATH.
+ln -s /usr/games/lolcat /usr/local/bin/lolcat
